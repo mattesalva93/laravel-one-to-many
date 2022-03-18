@@ -95,28 +95,26 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post )
     {
-        $request->validate([
+        $datovalidato = $request->validate([
             'title' => 'required | string',
             'content' => 'required',
             'category_id' => 'nullable|exists:categories,id'
         ]);
 
-        $data = $request->all();
-
-        if($post->title == $data['title']){
+        if($post->title == $datovalidato['title']){
             $slug = $post->slug;
         }else{
-            $slug = Str::slug($data['title']);
+            $slug = Str::slug($datovalidato['title']);
             $contatore  = 1;
             while(Post::where('slug', $slug)->where('id', '!=', $post->id)->first()){
-                $slug = Str::slug($data['title'])."-".$contatore;
+                $slug = Str::slug($datovalidato['title'])."-".$contatore;
                 $contatore++;
             }
         }
         
-        $data['slug'] = $slug;
+        $datovalidato['slug'] = $slug;
 
-        $post->update($data);
+        $post->update($datovalidato);
 
         return redirect()->route('admin.posts.show', $post->id);
     }

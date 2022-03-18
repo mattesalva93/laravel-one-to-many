@@ -44,6 +44,7 @@
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Crea</button>
+            </form>
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>
