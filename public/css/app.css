@@ -10962,3 +10962,8 @@ a.text-dark:focus {
   }
 }
 
+td img {
+  height: 100px;
+  width: 100%;
+}
+

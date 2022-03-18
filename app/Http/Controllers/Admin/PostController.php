@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -44,7 +45,8 @@ class PostController extends Controller
         $datoValidato = $request->validate([
             'title' => 'required | string',
             'content' => 'required',
-            'category_id' => 'nullable'
+            'category_id' => 'nullable',
+            'image' => 'nullable | image | mimes:jpg,bmp,png,jpeg'
         ]);
 
         $slugTemporaneo = Str::slug($datoValidato['title']);
@@ -53,8 +55,14 @@ class PostController extends Controller
             $slugTemporaneo = Str::slug($datoValidato['title'])."-".$contatore;
             $contatore++;
         }
-
         $datoValidato['slug'] = $slugTemporaneo;
+        
+        if(isset($datoValidato["image"])){
+            $img_path = Storage::put('uploads', $datoValidato['image']);
+            $datoValidato['image'] = $img_path;
+        }
+
+
         $post = new Post();
 
         $post->fill($datoValidato);
@@ -95,26 +103,27 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post )
     {
-        $datovalidato = $request->validate([
+        $datoValidato = $request->validate([
             'title' => 'required | string',
             'content' => 'required',
-            'category_id' => 'nullable|exists:categories,id'
+            'category_id' => 'nullable|exists:categories,id',
+            'image' => 'nullable | image | mimes:jpg,bmp,png,jpeg'
         ]);
 
-        if($post->title == $datovalidato['title']){
+        if($post->title == $datoValidato['title']){
             $slug = $post->slug;
         }else{
-            $slug = Str::slug($datovalidato['title']);
+            $slug = Str::slug($datoValidato['title']);
             $contatore  = 1;
             while(Post::where('slug', $slug)->where('id', '!=', $post->id)->first()){
-                $slug = Str::slug($datovalidato['title'])."-".$contatore;
+                $slug = Str::slug($datoValidato['title'])."-".$contatore;
                 $contatore++;
             }
         }
         
-        $datovalidato['slug'] = $slug;
+        $datoValidato['slug'] = $slug;
 
-        $post->update($datovalidato);
+        $post->update($datoValidato);
 
         return redirect()->route('admin.posts.show', $post->id);
     }

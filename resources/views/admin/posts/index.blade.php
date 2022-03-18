@@ -16,6 +16,7 @@
                         <th scope="col">Titolo</th>
                         <th scope="col">Sezione</th>
                         <th scope="col">Categoria</th>
+                        <th scope="col">Immagine</th>
                         <th scope="col">Slug</th>
                         <th scope="col">Azioni</th>
                     </tr>
@@ -27,6 +28,13 @@
                             <td>{{ $elemento->title }}</td>
                             <td>{{ $elemento->content }}</td>
                             <td>{{ $elemento->category ? $elemento->category->name : 'empty' }}</td>
+                            <td> 
+                                @if ($elemento->image != null)
+                                    <img src="{{ asset('storage/' . $elemento->image) }}" alt="">
+                                @else 
+                                    <img src="{{ asset('img/empty_image.jpg')}}" alt="">
+                                @endif
+                            </td>
                             <td>{{ $elemento->slug }}</td>
                             <td>
                                 <a href="{{ route('admin.posts.show', $elemento->id) }}" ><button type="button" class="btn btn-primary">Vedi</button></a>
