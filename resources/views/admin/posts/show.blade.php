@@ -6,7 +6,7 @@
             <div class="col">
                 <h1>{{ $post->title }}</h1>
                 <p>{{ $post->content }}</p>
-                <p> CATEGORIA: {{ $post->category->name }}</p>
+                <p> CATEGORIA: {{ $post->category ? $post->category->name : 'none' }}</p>
                 @if ($post->image != null)
                     <div>
                         <img src="{{ asset('storage/' . $post->image) }}" alt="">

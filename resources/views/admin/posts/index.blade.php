@@ -27,7 +27,7 @@
                             <th scope="row">{{ $elemento->id }}</th>
                             <td>{{ $elemento->title }}</td>
                             <td>{{ $elemento->content }}</td>
-                            <td>{{ $elemento->category ? $elemento->category->name : 'empty' }}</td>
+                            <td>{{ $elemento->category ? $elemento->category->name : 'none' }}</td>
                             <td> 
                                 @if ($elemento->image != null)
                                     <img src="{{ asset('storage/' . $elemento->image) }}" alt="">
