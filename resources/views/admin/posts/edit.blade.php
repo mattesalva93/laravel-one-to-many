@@ -10,7 +10,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <form action="{{ route('admin.posts.update', $post->id) }}" method="POST">
+                <form action="{{ route('admin.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
 
                     @method('PUT')
                     @csrf
@@ -54,6 +54,10 @@
                                 <img src="{{ asset('img/empty_image.jpg') }}" alt="">
                             </div>
                         @endif
+                        <div class="form-group mt-3">
+                            <label for="image">Inserisci un immagine per il tuo post</label>
+                            <input type="file" name="image" class="form-control-file" id="image">
+                        </div>
                         <button type="submit" class="btn btn-primary mt-3">Modifica</button>
                         <div>
                             <a href="{{ route('admin.posts.index') }}">

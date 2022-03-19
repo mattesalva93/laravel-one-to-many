@@ -120,8 +120,12 @@ class PostController extends Controller
                 $contatore++;
             }
         }
-        
         $datoValidato['slug'] = $slug;
+        
+        if(isset($datoValidato["image"])){
+            $img_path = Storage::put('uploads', $datoValidato['image']);
+            $datoValidato['image'] = $img_path;
+        }
 
         $post->update($datoValidato);
 
